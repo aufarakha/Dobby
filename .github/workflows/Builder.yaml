@@ -45,14 +45,12 @@ jobs:
         ls -lha .
 
     - name: update release
-      uses: ncipollo/release-action@v1
+      uses: actions/upload-artifact@v3
+
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: latest
-        body: "a lightweight, multi-platform, multi-architecture exploit hook framework"
-        artifacts: "build/dobby-linux-all.tar.gz,build/dobby-android-all.tar.gz"
-        allowUpdates: true
-        replacesArtifacts: true
+        name: Dobby
+        path: build
+        
 
   macos_and_iphoneos:
     runs-on: macos-latest
@@ -89,11 +87,8 @@ jobs:
         ls -lha .
 
     - name: update release
-      uses: ncipollo/release-action@v1
+      uses: actions/upload-artifact@v3
+
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag: latest
-        body: "a lightweight, multi-platform, multi-architecture exploit hook framework"
-        artifacts: "build/dobby-macos-all.tar.gz,build/dobby-iphoneos-all.tar.gz"
-        allowUpdates: true
-        replacesArtifacts: true
+        name: Dobby
+        path: build
