@@ -56,7 +56,7 @@ jobs:
 
   macos_and_iphoneos:
     runs-on: macos-latest
-    needs: delete_latest_release
+
     steps:
     - name: checkout dev
       uses: actions/checkout@master
