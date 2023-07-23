@@ -1,9 +1,7 @@
 name: Builder
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
+  
 
 env:
   CMAKE_VERSION: 3.25.2
