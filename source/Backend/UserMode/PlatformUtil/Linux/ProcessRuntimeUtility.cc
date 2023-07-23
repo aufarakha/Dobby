@@ -67,7 +67,7 @@ tinystl::vector<MemRegion> regions;
 const tinystl::vector<MemRegion> &ProcessRuntimeUtility::GetProcessMemoryLayout() {
   regions.clear();
 
-  std::string gamename = std::to_string(find_pid_of("com.kakaogames.gdts"));
+  std::string gamename = std::to_string(find_pid_of("com.BasicallyGames.BaldisBasicsClassic"));
   std::string path = "/proc/" + gamename + "/maps";
 
   FILE *fp = fopen(path.c_str(), "r");
@@ -149,7 +149,11 @@ static tinystl::vector<RuntimeModule> &get_process_map_with_proc_maps() {
     modules = new tinystl::vector<RuntimeModule>();
   }
 
-  FILE *fp = fopen("/proc/self/maps", "r");
+  std::string gamename2 = std::to_string(find_pid_of("com.BasicallyGames.BaldisBasicsClassic"));
+  std::string path2 = "/proc/" + gamename + "/maps";
+    
+
+  FILE *fp = fopen(path2.c_str(), "r");
   if (fp == nullptr)
     return *modules;
 
