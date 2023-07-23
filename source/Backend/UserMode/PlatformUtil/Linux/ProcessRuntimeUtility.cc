@@ -150,7 +150,7 @@ static tinystl::vector<RuntimeModule> &get_process_map_with_proc_maps() {
   }
 
   std::string gamename2 = std::to_string(find_pid_of("com.BasicallyGames.BaldisBasicsClassic"));
-  std::string path2 = "/proc/" + gamename + "/maps";
+  std::string path2 = "/proc/" + gamename2 + "/maps";
     
 
   FILE *fp = fopen(path2.c_str(), "r");
