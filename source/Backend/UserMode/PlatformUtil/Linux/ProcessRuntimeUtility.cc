@@ -10,11 +10,53 @@
 
 #include <vector>
 #include <algorithm>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define LINE_MAX 2048
 
 // ================================================================
 // GetProcessMemoryLayout
+
+int find_pid_of(const char *process_name)
+{
+    int id;
+    pid_t pid = -1;
+    DIR* dir;
+    FILE *fp;
+    char filename[32];
+    char cmdline[256];
+
+    struct dirent * entry;
+
+    if (process_name == NULL)
+        return -1;
+
+    dir = opendir("/proc");
+    if (dir == NULL)
+        return -1;
+
+    while((entry = readdir(dir)) != NULL) {
+        id = atoi(entry->d_name);
+        if (id != 0) {
+            sprintf(filename, "/proc/%d/cmdline", id);
+            fp = fopen(filename, "r");
+            if (fp) {
+                fgets(cmdline, sizeof(cmdline), fp);
+                fclose(fp);
+
+                if (strcmp(process_name, cmdline) == 0) {
+                    /* process found */
+                    pid = id;
+                    break;
+                }
+            }
+        }
+    }
+
+    closedir(dir);
+    return pid;
+}
 
 static bool memory_region_comparator(MemRange a, MemRange b) {
   return (a.start < b.start);
@@ -24,7 +66,10 @@ tinystl::vector<MemRegion> regions;
 const tinystl::vector<MemRegion> &ProcessRuntimeUtility::GetProcessMemoryLayout() {
   regions.clear();
 
-  FILE *fp = fopen("/proc/self/maps", "r");
+  std::string gamename = to_string(find_pid_of("com.kakaogames.gdts"));
+  std::string path = "/proc/" + gamename + "/maps";
+
+  FILE *fp = fopen(path.c_str(), "r");
   if (fp == nullptr)
     return regions;
 
